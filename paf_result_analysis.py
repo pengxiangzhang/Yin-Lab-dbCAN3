@@ -4,6 +4,7 @@ import csv
 import sys
 from pafpy import PafFile
 
+
 # Input(argv1): R1 paf File
 # Input(argv2): R2 paf File
 # Output(argv3): sequence_FPKM csv file
@@ -59,7 +60,9 @@ def get_brief_records(path, cazyfamilies, sequences):
 
     return reads
 
-def cazy_family_counter(cazyfamilies, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction, seq_id_list_R2_subtraction):
+
+def cazy_family_counter(cazyfamilies, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction,
+                        seq_id_list_R2_subtraction):
     for read_id in seq_id_intersec:
         read_in_R1 = reads_R1[read_id]
         for read1_cazyfamily in read_in_R1['cazy_family']:
@@ -89,7 +92,8 @@ def cazy_family_counter(cazyfamilies, reads_R1, reads_R2, seq_id_intersec, seq_i
         cazyfamily['average_seq_length'] = average_length
 
 
-def sequence_counter(sequences, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction, seq_id_list_R2_subtraction):
+def sequence_counter(sequences, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction,
+                     seq_id_list_R2_subtraction):
     for read_id in seq_id_intersec:
         read_in_R1 = reads_R1[read_id]
         read1_sequences = read_in_R1['seq_id']
@@ -163,7 +167,7 @@ def cazyfamily_FPKM(cazyfamilies, amount_all_reads):
         if count == 0:
             # Writing headers of CSV file
             header = ['cazyfamily_name']
-            cazy_title =  list(cazyfamily_names[cazyfamily_name].keys())
+            cazy_title = list(cazyfamily_names[cazyfamily_name].keys())
             del cazy_title[1]
             header += cazy_title
             csv_writer.writerow(header)
@@ -173,6 +177,7 @@ def cazyfamily_FPKM(cazyfamilies, amount_all_reads):
         row = [cazyfamily_name] + cazy_info
         csv_writer.writerow(row)
     data_file.close()
+
 
 def main():
     cazyfamilies = {}
@@ -197,13 +202,16 @@ def main():
     seq_id_list_R2_subtraction = list(set(seq_id_list_R2).difference(set(seq_id_list_R1)))
 
     amount_all_reads = len(seq_id_intersec) + len(seq_id_list_R1_subtraction) + len(seq_id_list_R2_subtraction)
-    cazy_family_counter(cazyfamilies, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction, seq_id_list_R2_subtraction)
-    sequence_counter(sequences, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction, seq_id_list_R2_subtraction)
+    cazy_family_counter(cazyfamilies, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction,
+                        seq_id_list_R2_subtraction)
+    sequence_counter(sequences, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction,
+                     seq_id_list_R2_subtraction)
     print(amount_all_reads)
     sequence_FPKM(sequences, amount_all_reads)
     cazyfamily_FPKM(cazyfamilies, amount_all_reads)
     stop = time.time()
     print('run: ' + str(stop - start))
+
 
 if __name__ == '__main__':
     main()
