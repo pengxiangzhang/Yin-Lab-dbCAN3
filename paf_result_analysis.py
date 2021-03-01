@@ -7,8 +7,10 @@ from pafpy import PafFile
 
 # Input(argv1): R1 paf File
 # Input(argv2): R2 paf File
-# Output(argv3): sequence_FPKM csv file
-# Output(argv4): cazyfamily_FPKM csv file
+# Output(argv3): R1 Read Counts
+# Output(argv4): R2 Read Counts
+# Output(argv5): sequence_FPKM csv file
+# Output(argv6): cazyfamily_FPKM csv file
 
 
 def get_brief_records(path, cazyfamilies, sequences):
@@ -130,7 +132,7 @@ def sequence_FPKM(sequences, amount_all_reads):
     # with open(sys.argv[3], 'w') as f:
     #     json.dump(sequences, f)
     # f.close()
-    data_file = open(sys.argv[3], 'w')
+    data_file = open(sys.argv[5], 'w')
     csv_writer = csv.writer(data_file)
     count = 0
 
@@ -158,7 +160,7 @@ def cazyfamily_FPKM(cazyfamilies, amount_all_reads):
     # with open(sys.argv[4], 'w') as f:
     #     json.dump(cazyfamilies, f)
     # f.close()
-    data_file = open(sys.argv[4], 'w')
+    data_file = open(sys.argv[6], 'w')
     csv_writer = csv.writer(data_file)
     count = 0
 
@@ -201,12 +203,11 @@ def main():
     seq_id_list_R1_subtraction = list(set(seq_id_list_R1).difference(set(seq_id_list_R2)))
     seq_id_list_R2_subtraction = list(set(seq_id_list_R2).difference(set(seq_id_list_R1)))
 
-    amount_all_reads = len(seq_id_intersec) + len(seq_id_list_R1_subtraction) + len(seq_id_list_R2_subtraction)
+    amount_all_reads = int(sys.argv[3])
     cazy_family_counter(cazyfamilies, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction,
                         seq_id_list_R2_subtraction)
     sequence_counter(sequences, reads_R1, reads_R2, seq_id_intersec, seq_id_list_R1_subtraction,
                      seq_id_list_R2_subtraction)
-    print(amount_all_reads)
     sequence_FPKM(sequences, amount_all_reads)
     cazyfamily_FPKM(cazyfamilies, amount_all_reads)
     stop = time.time()

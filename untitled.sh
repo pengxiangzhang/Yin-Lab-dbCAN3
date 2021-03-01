@@ -1,0 +1,9 @@
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example0/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example0/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example0 -m -b -d
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example1/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example1/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example1 -m -b -d
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example2/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example2/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example2 -m -b -d
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example3/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example3/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example3 -m -b -d
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example4/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example4/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example4 -m -b -d
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example5/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example5/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example5 -m -b -d
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example6/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example6/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example6 -m -b -d
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example7/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example7/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example7 -m -b -d
+python3 dbcan3.py -r1 /home/penxiang/annotation/reads/fq/example8/sample_R1_val_1.fq.gz -r2 /home/penxiang/annotation/reads/fq/example8/sample_R2_val_2.fq.gz -o /home/penxiang/annotation/pipeline1/run/example8 -m -b -d
