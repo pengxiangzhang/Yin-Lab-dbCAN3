@@ -6,6 +6,7 @@ parser = argparse.ArgumentParser(description='dbCAN3')
 parser.add_argument('-b', '--bowtie', dest='bowtie', action='store_true', help='Run Bowtie2?', default=False)
 parser.add_argument('-d', '--diamond', dest='diamond', action='store_true', help='Run diamond?', default=False)
 parser.add_argument('-m', '--minimap', dest='minimap', action='store_true', help='Run minimap2?', default=False)
+parser.add_argument('-a', '--bwa', dest='bwa', action='store_true', help='Run BWA?', default=False)
 parser.add_argument('-s', '--source', dest='source', action='store_true', help='Store source file?', default=False)
 parser.add_argument('-o', dest='output', type=str, help='Output location?', default="output/")
 parser.add_argument('-r1', dest='input1', type=str, help='R1 File', required=True)
@@ -42,9 +43,9 @@ def get_count_reads_fa(file):
 
 
 def main():
-    # if not any([args.bowtie, args.diamond, args.minimap]):
-    #     print("ERROR: You must select a program to run(--bowtie, --diamond or --minimap).")
-    #     exit(1)
+    if not any([args.bowtie, args.diamond, args.minimap]):
+        print("ERROR: You must select a program to run(--bowtie, --diamond or --minimap).")
+        exit(1)
 
     if not args.output.endswith('/'):
         args.output = args.output + "/"
@@ -149,6 +150,37 @@ def main():
         print("Running minimap analysis")
         check_return(os.system(
             "python3 paf_result_analysis.py " + args.output + "data/minimap2_r1.paf " + args.output + "data/minimap2_r2.paf " + r1counts + " " + r2counts + " " + args.output + "result/minimap.sequence_FPKM.csv " + args.output + "result/minimap.cazyfamily_FPKM.csv"))
+        minimap_end = time.time()
+        print('Minimap Run Time(second): ' + str(minimap_end - minimap_start))
+
+    if args.bwa:
+        bwa_start = time.time()
+        print("Running BWA")
+        if fq:
+            check_return(os.system(
+                "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/input1_val_1.fq.gz >  " + args.output + "data/bwa_R1.sam"))
+            check_return(os.system(
+                "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/input2_val_2.fq.gz >  " + args.output + "data/bwa_R2.sam"))
+        else:
+            check_return(os.system(
+                "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/R1.fa >  " + args.output + "data/bwa_R1.sam"))
+            check_return(os.system(
+                "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa  " + args.output + "data/R2.fa >  " + args.output + "data/bwa_R2.sam"))
+        #TODO: Change database
+        print("Running bioconvert")
+        check_return(os.system(
+            "bioconvert sam2paf " + args.output + "data/bwa_R1.sam " + args.output + "data/bwa_R1.paf"))
+        check_return(os.system(
+            "bioconvert sam2paf " + args.output + "data/bwa_R2.sam " + args.output + "data/bwa_R2.paf"))
+        print("Running diamond_paf")
+        check_return(os.system(
+            "python3 diamond_paf.py " + args.output + "data/bwa_R1.paf " + args.output + "data/bwa_R1.new.paf"))
+        check_return(os.system(
+            "python3 diamond_paf.py " + args.output + "data/bwa_R2.paf " + args.output + "data/bwa_R2.new.paf"))
+
+        print("Running bwa analysis")
+        check_return(os.system(
+            "python3 paf_result_analysis.py " + args.output + "data/bwa_R1.new.paf " + args.output + "data/bwa_R2.new.paf " + r1counts + " " + r2counts + " " + args.output + "result/bwa.sequence_FPKM.csv " + args.output + "result/bwa.cazyfamily_FPKM.csv"))
         minimap_end = time.time()
         print('Minimap Run Time(second): ' + str(minimap_end - minimap_start))
 
