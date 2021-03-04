@@ -14,9 +14,6 @@ parser.add_argument('-r2', dest='input2', type=str, help='R2 File', required=Tru
 args = parser.parse_args()
 
 
-# TODO: BWA.
-# TODO: .fa file
-
 # TODO: NEW
 ## TODO: New pipeline: read to contig -> megahit/ Long sequence
 ## TODO: Long sequence -> dbCAN -> annotation(CAZYFamily) .gff -> stringtie (MPKM TPM)
@@ -124,11 +121,11 @@ def main():
             "diamond blastx --strand both --evalue 1e-6 --query " + args.output + "data/R2.fa --db /home/penxiang/annotation/pipeline1/database/diamondbase.dmnd --threads 32 --out " + args.output + "data/diamond.R2.paf --outfmt 103"))
         # TODO: change Database
 
-        print("Running diamond_paf")
+        print("Running Removing unhit")
         check_return(os.system(
-            "python3 diamond_paf.py " + args.output + "data/diamond.R1.paf " + args.output + "data/diamond.new.R1.paf"))
+            "python3 paf_remove_unhit.py " + args.output + "data/diamond.R1.paf " + args.output + "data/diamond.new.R1.paf"))
         check_return(os.system(
-            "python3 diamond_paf.py " + args.output + "data/diamond.R2.paf " + args.output + "data/diamond.new.R2.paf"))
+            "python3 paf_remove_unhit.py " + args.output + "data/diamond.R2.paf " + args.output + "data/diamond.new.R2.paf"))
         print("Running diamond analysis")
         check_return(os.system(
             "python3 paf_result_analysis.py " + args.output + "data/diamond.new.R1.paf " + args.output + "data/diamond.new.R2.paf " + r1counts + " " + r2counts + " " + args.output + "result/diamond.sequence_FPKM.csv " + args.output + "result/diamond.cazyfamily_FPKM.csv"))
@@ -144,9 +141,9 @@ def main():
         else:
             check_return(os.system(
                 "minimap2 -t 32 -x sr /home/penxiang/annotation/pipeline1/database/CAZyDB.07312020.fa.cds  " + args.output + "data/R1.fa  " + args.output + "data/R2.fa >  " + args.output + "data/minimap2.paf"))
-        print("Running minimap_paf")
+        print("Running split paf")
         check_return(os.system(
-            "python3 minimap_paf.py " + args.output + "data/minimap2.paf " + args.output + "data/minimap2_r1.paf " + args.output + "data/minimap2_r2.paf"))
+            "python3 paf_split.py " + args.output + "data/minimap2.paf " + args.output + "data/minimap2_r1.paf " + args.output + "data/minimap2_r2.paf"))
         print("Running minimap analysis")
         check_return(os.system(
             "python3 paf_result_analysis.py " + args.output + "data/minimap2_r1.paf " + args.output + "data/minimap2_r2.paf " + r1counts + " " + r2counts + " " + args.output + "result/minimap.sequence_FPKM.csv " + args.output + "result/minimap.cazyfamily_FPKM.csv"))
@@ -166,7 +163,7 @@ def main():
                 "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/R1.fa >  " + args.output + "data/bwa_R1.sam"))
             check_return(os.system(
                 "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa  " + args.output + "data/R2.fa >  " + args.output + "data/bwa_R2.sam"))
-        #TODO: Change database
+        # TODO: Change database
         print("Running bioconvert")
         check_return(os.system(
             "bioconvert sam2paf " + args.output + "data/bwa_R1.sam " + args.output + "data/bwa_R1.paf"))
@@ -174,9 +171,9 @@ def main():
             "bioconvert sam2paf " + args.output + "data/bwa_R2.sam " + args.output + "data/bwa_R2.paf"))
         print("Running diamond_paf")
         check_return(os.system(
-            "python3 diamond_paf.py " + args.output + "data/bwa_R1.paf " + args.output + "data/bwa_R1.new.paf"))
+            "python3 paf_remove_unhit.py " + args.output + "data/bwa_R1.paf " + args.output + "data/bwa_R1.new.paf"))
         check_return(os.system(
-            "python3 diamond_paf.py " + args.output + "data/bwa_R2.paf " + args.output + "data/bwa_R2.new.paf"))
+            "python3 paf_remove_unhit.py " + args.output + "data/bwa_R2.paf " + args.output + "data/bwa_R2.new.paf"))
 
         print("Running bwa analysis")
         check_return(os.system(

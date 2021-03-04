@@ -4,6 +4,11 @@ import time
 import sys
 
 
+# Input(argv1): a paf file
+# Output(argv2): a paf file only with R1
+# Output(argv3): a paf file only with R2
+
+
 def spit_minimap(input, output1, output2):
     file1 = open(input, 'r')
     r1 = open(output1, 'w')

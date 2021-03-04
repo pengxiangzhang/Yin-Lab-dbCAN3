@@ -4,8 +4,8 @@ import time
 import sys
 
 
-# Input(argv1): diamond generated paf file
-# Output(argv2): diamond generated paf file without unhit
+# Input(argv1): a paf file
+# Output(argv2): a paf file without un-hit
 
 def remove_not_hit(path, new_path):
     file1 = open(path, 'r')
