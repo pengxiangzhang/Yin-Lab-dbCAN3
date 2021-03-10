@@ -1,5 +1,4 @@
 import json
-import time
 import csv
 import sys
 from pafpy import PafFile
@@ -190,7 +189,6 @@ def main():
     sequences['name_list'] = {}
     sequences['seq_amount'] = 0
 
-    start = time.time()
     path_R1 = sys.argv[1]
     reads_R1 = get_brief_records(path_R1, cazyfamilies, sequences)
 
@@ -210,8 +208,6 @@ def main():
                      seq_id_list_R2_subtraction)
     sequence_FPKM(sequences, amount_all_reads)
     cazyfamily_FPKM(cazyfamilies, amount_all_reads)
-    stop = time.time()
-    print('run: ' + str(stop - start))
 
 
 if __name__ == '__main__':

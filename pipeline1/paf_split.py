@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import time
 import sys
 
 
@@ -25,10 +24,7 @@ def spit_minimap(input, output1, output2):
 
 
 def main():
-    start = time.time()
     spit_minimap(sys.argv[1], sys.argv[2], sys.argv[3])
-    stop = time.time()
-    print('spit_minimap run: ' + str(stop - start))
 
 
 if __name__ == '__main__':

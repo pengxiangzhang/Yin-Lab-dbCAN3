@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-import time
 import sys
 
 
@@ -18,10 +17,7 @@ def remove_not_hit(path, new_path):
 
 
 def main():
-    start = time.time()
     remove_not_hit(sys.argv[1], sys.argv[2])
-    stop = time.time()
-    print('remove_not_hit run: ' + str(stop - start))
 
 
 if __name__ == '__main__':

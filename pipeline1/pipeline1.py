@@ -2,7 +2,7 @@ import os
 import argparse
 import time
 
-parser = argparse.ArgumentParser(description='dbCAN3')
+parser = argparse.ArgumentParser(description='pipeline1')
 parser.add_argument('-b', '--bowtie', dest='bowtie', action='store_true', help='Run Bowtie2?', default=False)
 parser.add_argument('-d', '--diamond', dest='diamond', action='store_true', help='Run diamond?', default=False)
 parser.add_argument('-m', '--minimap', dest='minimap', action='store_true', help='Run minimap2?', default=False)
@@ -12,11 +12,6 @@ parser.add_argument('-o', dest='output', type=str, help='Output location?', defa
 parser.add_argument('-r1', dest='input1', type=str, help='R1 File', required=True)
 parser.add_argument('-r2', dest='input2', type=str, help='R2 File', required=True)
 args = parser.parse_args()
-
-
-# TODO: NEW
-## TODO: New pipeline: read to contig -> megahit/ Long sequence
-## TODO: Long sequence -> dbCAN -> annotation(CAZYFamily) .gff -> stringtie (MPKM TPM)
 
 
 def check_return(status):
@@ -85,14 +80,14 @@ def main():
         print("Running bowtie2")
         if fq:
             check_return(os.system(
-                "bowtie2 -p 32 -x /home/penxiang/annotation/pipeline1/database/bowtiebase/CAZyDB " + args.output + "data/input1_val_1.fq.gz -S " + args.output + "data/bowtie.R1.sam"))
+                "bowtie2 -p 32 -x /mnt/array2/pengxiang/annotation/pipeline1/database/bowtiebase/CAZyDB " + args.output + "data/input1_val_1.fq.gz -S " + args.output + "data/bowtie.R1.sam"))
             check_return(os.system(
-                "bowtie2 -p 32 -x /home/penxiang/annotation/pipeline1/database/bowtiebase/CAZyDB " + args.output + "data/input2_val_2.fq.gz -S " + args.output + "data/bowtie.R2.sam"))
+                "bowtie2 -p 32 -x /mnt/array2/pengxiang/annotation/pipeline1/database/bowtiebase/CAZyDB " + args.output + "data/input2_val_2.fq.gz -S " + args.output + "data/bowtie.R2.sam"))
         else:
             check_return(os.system(
-                "bowtie2 -p 32 -x /home/penxiang/annotation/pipeline1/database/bowtiebase/CAZyDB " + args.output + "data/R1.fa -S " + args.output + "data/bowtie.R1.sam"))
+                "bowtie2 -p 32 -x /mnt/array2/pengxiang/annotation/pipeline1/database/bowtiebase/CAZyDB " + args.output + "data/R1.fa -S " + args.output + "data/bowtie.R1.sam"))
             check_return(os.system(
-                "bowtie2 -p 32 -x /home/penxiang/annotation/pipeline1/database/bowtiebase/CAZyDB " + args.output + "data/R2.fq.gz -S " + args.output + "data/bowtie.R2.sam"))
+                "bowtie2 -p 32 -x /mnt/array2/pengxiang/annotation/pipeline1/database/bowtiebase/CAZyDB " + args.output + "data/R2.fq.gz -S " + args.output + "data/bowtie.R2.sam"))
         # TODO: change Database.
 
         print("Running bioconvert")
@@ -116,9 +111,9 @@ def main():
                 "seqtk seq -a " + args.output + "data/input2_val_2.fq.gz  > " + args.output + "data/R2.fa"))
         print("Running diamond")
         check_return(os.system(
-            "diamond blastx --strand both --evalue 1e-6 --query " + args.output + "data/R1.fa --db /home/penxiang/annotation/pipeline1/database/diamondbase.dmnd --threads 32 --out " + args.output + "data/diamond.R1.paf --outfmt 103"))
+            "diamond blastx --strand both --evalue 1e-6 --query " + args.output + "data/R1.fa --db /mnt/array2/pengxiang/annotation/pipeline1/database/diamondbase.dmnd --threads 32 --out " + args.output + "data/diamond.R1.paf --outfmt 103"))
         check_return(os.system(
-            "diamond blastx --strand both --evalue 1e-6 --query " + args.output + "data/R2.fa --db /home/penxiang/annotation/pipeline1/database/diamondbase.dmnd --threads 32 --out " + args.output + "data/diamond.R2.paf --outfmt 103"))
+            "diamond blastx --strand both --evalue 1e-6 --query " + args.output + "data/R2.fa --db /mnt/array2/pengxiang/annotation/pipeline1/database/diamondbase.dmnd --threads 32 --out " + args.output + "data/diamond.R2.paf --outfmt 103"))
         # TODO: change Database
 
         print("Running Removing unhit")
@@ -137,10 +132,10 @@ def main():
         print("Running minimap2")
         if fq:
             check_return(os.system(
-                "minimap2 -t 32 -x sr /home/penxiang/annotation/pipeline1/database/CAZyDB.07312020.fa.cds  " + args.output + "data/input1_val_1.fq.gz  " + args.output + "data/input2_val_2.fq.gz >  " + args.output + "data/minimap2.paf"))
+                "minimap2 -t 32 -x sr /mnt/array2/pengxiang/annotation/pipeline1/database/CAZyDB.07312020.fa.cds  " + args.output + "data/input1_val_1.fq.gz  " + args.output + "data/input2_val_2.fq.gz >  " + args.output + "data/minimap2.paf"))
         else:
             check_return(os.system(
-                "minimap2 -t 32 -x sr /home/penxiang/annotation/pipeline1/database/CAZyDB.07312020.fa.cds  " + args.output + "data/R1.fa  " + args.output + "data/R2.fa >  " + args.output + "data/minimap2.paf"))
+                "minimap2 -t 32 -x sr /mnt/array2/pengxiang/annotation/pipeline1/database/CAZyDB.07312020.fa.cds  " + args.output + "data/R1.fa  " + args.output + "data/R2.fa >  " + args.output + "data/minimap2.paf"))
         print("Running split paf")
         check_return(os.system(
             "python3 paf_split.py " + args.output + "data/minimap2.paf " + args.output + "data/minimap2_r1.paf " + args.output + "data/minimap2_r2.paf"))
@@ -155,14 +150,14 @@ def main():
         print("Running BWA")
         if fq:
             check_return(os.system(
-                "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/input1_val_1.fq.gz >  " + args.output + "data/bwa_R1.sam"))
+                "bwa mem -t 32 /mnt/array2/pengxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/input1_val_1.fq.gz >  " + args.output + "data/bwa_R1.sam"))
             check_return(os.system(
-                "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/input2_val_2.fq.gz >  " + args.output + "data/bwa_R2.sam"))
+                "bwa mem -t 32 /mnt/array2/pengxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/input2_val_2.fq.gz >  " + args.output + "data/bwa_R2.sam"))
         else:
             check_return(os.system(
-                "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/R1.fa >  " + args.output + "data/bwa_R1.sam"))
+                "bwa mem -t 32 /mnt/array2/pengxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa.cds  " + args.output + "data/R1.fa >  " + args.output + "data/bwa_R1.sam"))
             check_return(os.system(
-                "bwa mem -t 32 /home/penxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa  " + args.output + "data/R2.fa >  " + args.output + "data/bwa_R2.sam"))
+                "bwa mem -t 32 /mnt/array2/pengxiang/annotation/pipeline1/database/bwabase/CAZyDB.07312020.fa  " + args.output + "data/R2.fa >  " + args.output + "data/bwa_R2.sam"))
         # TODO: Change database
         print("Running bioconvert")
         check_return(os.system(
