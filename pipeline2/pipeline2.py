@@ -28,6 +28,10 @@ def main():
 # run_dbcan.py /mnt/array2/pengxiang/annotation/pipeline2/megahit/final.contigs.fa prok --out_dir dbcan_out --db_dir /mnt/array2/pengxiang/annotation/pipeline2/dbcan/db --dia_cpu 4  --hmm_cpu=4 --hotpep_cpu 4 --tf_cpu 4 --tf_cpu 4
 # TODO: Change database
 # python3 filter_gff.py /mnt/array2/pengxiang/annotation/pipeline2/dbcan_out/prodigal.gff /mnt/array2/pengxiang/annotation/pipeline2/dbcan_out/overview.txt /mnt/array2/pengxiang/annotation/pipeline2/new.gff
+# samtools sort -@ 32 -O bam -o R1.bam R1.sam
+# samtools sort -@ 32 -O bam -o R2.bam R2.sam
+# stringtie -e -B -p 8 -G /mnt/array2/pengxiang/annotation/pipeline2/new.gff  -o R1.gtf /mnt/array2/pengxiang/annotation/pipeline2/bowtie/R1.bam /mnt/array2/pengxiang/annotation/pipeline2/bowtie/R2.bam
+
 
 if __name__ == '__main__':
     main()
