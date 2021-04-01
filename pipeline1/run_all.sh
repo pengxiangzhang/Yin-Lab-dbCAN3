@@ -7,3 +7,5 @@ python3 pipeline1.py -r1 /mnt/array2/pengxiang/annotation/reads/fq/example5/samp
 python3 pipeline1.py -r1 /mnt/array2/pengxiang/annotation/reads/fq/example6/sample_R1_val_1.fq.gz -r2 /mnt/array2/pengxiang/annotation/reads/fq/example6/sample_R2_val_2.fq.gz -o /mnt/array2/pengxiang/annotation/pipeline1/run/example6 -m -b -d -a
 python3 pipeline1.py -r1 /mnt/array2/pengxiang/annotation/reads/fq/example7/sample_R1_val_1.fq.gz -r2 /mnt/array2/pengxiang/annotation/reads/fq/example7/sample_R2_val_2.fq.gz -o /mnt/array2/pengxiang/annotation/pipeline1/run/example7 -m -b -d -a
 python3 pipeline1.py -r1 /mnt/array2/pengxiang/annotation/reads/fa/example8/sample_R1.fa -r2 /mnt/array2/pengxiang/annotation/reads/fa/example8/sample_R2.fa -o /mnt/array2/pengxiang/annotation/pipeline1/run/example8 -m -b -d -a
+
+python3 pipeline1.py -r1 /mnt/array2/pengxiang/annotation/reads/fq/example0/sample_R1_val_1.fq.gz -r2 /mnt/array2/pengxiang/annotation/reads/fq/example0/sample_R2_val_2.fq.gz -o /mnt/array2/pengxiang/annotation/pipeline1/run/example0 -m -b -d -a
