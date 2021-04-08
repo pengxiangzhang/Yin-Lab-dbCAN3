@@ -154,7 +154,7 @@ def cazyfamily_FPKM(cazyfamilies, amount_all_reads):
         convert_all_reads = amount_all_reads / pow(10, 6)
         convert_length = cazyfamily["average_seq_length"] / 1000
         FPKM = cazyfamily["cazyfamily_read_count"] / (convert_length * convert_all_reads)
-        cazyfamily['FPKM'] = FPKM
+        cazyfamily['FRKM'] = FPKM
 
     # with open(sys.argv[4], 'w') as f:
     #     json.dump(cazyfamilies, f)
