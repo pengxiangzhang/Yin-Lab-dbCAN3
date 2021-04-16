@@ -41,7 +41,7 @@ def main():
     check_return(os.system(
         "gff2bed < " + args.output + "data/new.gff | sed \"s/cds-//\" | awk \'{if ($8==\"CDS\") print $0}\' | bedtools getfasta -fi " + args.output + "data/megahit/final.contigs.fa -bed - -s -name > " + args.output + "data/bedtool.fa"))
 
-    pipeline1 = "python3 pipeline2-1.py -r1 " + args.input1 + " -r2 " + args.input2 + " -o " + args.output + "result/ "
+    pipeline1 = "python3 pipeline2-1-besthit.py -r1 " + args.input1 + " -r2 " + args.input2 + " -o " + args.output + "result/ "
 
     if args.bowtie:
         check_return(os.system("mkdir " + args.output + 'result/bowtie2-index'))
@@ -50,10 +50,10 @@ def main():
         pipeline1 = pipeline1 + "-b "
 
     if args.diamond:
-        # TODO: Database wrong
         check_return(os.system("mkdir " + args.output + 'result/diamond-db'))
+        check_return(os.system("python3 RNA_translate.py " + args.output + "data/bedtool.fa "+args.output +"data/protein.fa"))
         check_return(os.system(
-            "diamond makedb --in " + args.output + "data/bedtool.fa -d" + args.output + "result/diamond-db/cds"))  # cds.dmnd
+            "diamond makedb --in " + args.output + "data/protein.fa -d" + args.output + "result/diamond-db/cds"))  # cds.dmnd
         pipeline1 = pipeline1 + "-d "
 
     if args.minimap:
