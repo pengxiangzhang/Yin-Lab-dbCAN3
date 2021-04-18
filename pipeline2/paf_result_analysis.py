@@ -1,6 +1,7 @@
-import json
 import csv
+import json
 import sys
+
 from pafpy import PafFile
 
 

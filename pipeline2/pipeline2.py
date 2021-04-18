@@ -1,5 +1,5 @@
-import os
 import argparse
+import os
 import time
 
 parser = argparse.ArgumentParser(description='pipeline2')
