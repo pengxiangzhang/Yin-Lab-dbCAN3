@@ -51,7 +51,8 @@ def main():
 
     if args.diamond:
         check_return(os.system("mkdir " + args.output + 'result/diamond-db'))
-        check_return(os.system("python3 RNA_translate.py " + args.output + "data/bedtool.fa "+args.output +"data/protein.fa"))
+        check_return(
+            os.system("python3 RNA_translate.py " + args.output + "data/bedtool.fa " + args.output + "data/protein.fa"))
         check_return(os.system(
             "diamond makedb --in " + args.output + "data/protein.fa -d" + args.output + "result/diamond-db/cds"))  # cds.dmnd
         pipeline1 = pipeline1 + "-d "
@@ -65,7 +66,7 @@ def main():
         check_return(os.system("mkdir " + args.output + 'result/bwa-db'))
         check_return(os.system(
             "cp " + args.output + "data/bedtool.fa " + args.output + "result/bwa-db/cds.fa;cd " + args.output + "result/bwa-db;bwa index cds.fa"))
-        pipeline1 = pipeline1 + "-b "
+        pipeline1 = pipeline1 + "-a "
 
     if not args.source:
         os.system("rm -rf " + args.output + "source")

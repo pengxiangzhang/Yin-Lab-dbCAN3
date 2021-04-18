@@ -112,9 +112,9 @@ def main():
         print("Running diamond")
         # CAZyDB.07312020.fa
         check_return(os.system(
-            "diamond blastx --strand both --evalue 1e-10 --query " + args.output + "data/R1.fa --db /mnt/array2/pengxiang/annotation/pipeline1/db/diamond-db/CAZyDB.07312020.fa.dmnd --threads 32 --out " + args.output + "data/diamond.R1.paf --outfmt 103"))
+            "diamond blastx -k 1 --strand both --evalue 1e-10 --query " + args.output + "data/R1.fa --db /mnt/array2/pengxiang/annotation/pipeline1/db/diamond-db/CAZyDB.07312020.fa.dmnd --threads 32 --out " + args.output + "data/diamond.R1.paf --outfmt 103"))
         check_return(os.system(
-            "diamond blastx --strand both --evalue 1e-10 --query " + args.output + "data/R2.fa --db /mnt/array2/pengxiang/annotation/pipeline1/db/diamond-db/CAZyDB.07312020.fa.dmnd --threads 32 --out " + args.output + "data/diamond.R2.paf --outfmt 103"))
+            "diamond blastx -k 1 --strand both --evalue 1e-10 --query " + args.output + "data/R2.fa --db /mnt/array2/pengxiang/annotation/pipeline1/db/diamond-db/CAZyDB.07312020.fa.dmnd --threads 32 --out " + args.output + "data/diamond.R2.paf --outfmt 103"))
         # TODO: change Database
 
         print("Running Removing unhit")

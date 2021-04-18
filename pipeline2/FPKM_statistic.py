@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import sys
 
+
 # Input(argv1): a paf csv
 # Input(argv2): a paf csv
 
@@ -41,6 +42,7 @@ def FPKM_statistic_options(target_file, option):
     df = pd.DataFrame(cazyFamily_pairs)
     df.to_csv('FPKM_statistic_options.csv', index=False, header=['cazyfamily_name', 'FPKM'])
 
+
 def FPKM_statistic(target_file):
     with open(target_file, 'r') as f:
         data = f.readlines()
@@ -67,6 +69,7 @@ def FPKM_statistic(target_file):
         gff_statistic.append([cazyFamily, processed_FPKM])
     df = pd.DataFrame(gff_statistic)
     df.to_csv('FPKM_statistic.csv', index=False, header=['cazyFamily', 'FPKM'])
+
 
 def compare_FPKM():
     with open('FPKM_statistic_options.csv', 'r') as f1:
@@ -95,7 +98,6 @@ def compare_FPKM():
         # print(list(result[1]))
     except:
         print('error from compare')
-
 
 
 if __name__ == '__main__':

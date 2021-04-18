@@ -148,14 +148,14 @@ def main():
         print("Running BWA")
         if fq:
             check_return(os.system(
-                "bwa mem -t 32" + args.output + "bwa-db/cds.fa" + args.output + "data/input1_val_1.fq.gz >  " + args.output + "data/bwa_R1.sam"))
+                "bwa mem -t 32 " + args.output + "bwa-db/cds.fa " + args.output + "data/input1_val_1.fq.gz > " + args.output + "data/bwa_R1.sam"))
             check_return(os.system(
-                "bwa mem -t 32" + args.output + "bwa-db/cds.fa" + args.output + "data/input2_val_2.fq.gz >  " + args.output + "data/bwa_R2.sam"))
+                "bwa mem -t 32 " + args.output + "bwa-db/cds.fa " + args.output + "data/input2_val_2.fq.gz > " + args.output + "data/bwa_R2.sam"))
         else:
             check_return(os.system(
-                "bwa mem -t 32" + args.output + "bwa-db/cds.fa" + args.output + "data/R1.fa >  " + args.output + "data/bwa_R1.sam"))
+                "bwa mem -t 32 " + args.output + "bwa-db/cds.fa " + args.output + "data/R1.fa > " + args.output + "data/bwa_R1.sam"))
             check_return(os.system(
-                "bwa mem -t 32" + args.output + "bwa-db/cds.fa" + args.output + "data/R2.fa >  " + args.output + "data/bwa_R2.sam"))
+                "bwa mem -t 32 " + args.output + "bwa-db/cds.fa " + args.output + "data/R2.fa > " + args.output + "data/bwa_R2.sam"))
         print("Running bioconvert")
         check_return(os.system(
             "bioconvert sam2paf " + args.output + "data/bwa_R1.sam " + args.output + "data/bwa_R1.paf"))
